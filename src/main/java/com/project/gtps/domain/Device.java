@@ -1,6 +1,7 @@
 package com.project.gtps.domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "device")
+@XmlRootElement
 public class Device implements Serializable {
 
     @Id
