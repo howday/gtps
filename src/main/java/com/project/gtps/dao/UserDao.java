@@ -1,5 +1,6 @@
 package com.project.gtps.dao;
 
+import com.project.gtps.domain.Group;
 import com.project.gtps.domain.User;
 
 import java.util.List;
@@ -17,5 +18,11 @@ public interface UserDao extends GenericDao<User> {
     public Boolean validate(String userName, String password);
 
     public List<User> findMatchingUser(String email);
+
+    public User findByUsername(String username);
+
+    public Group findGroupById(Long groupId);
+
+
 
 }

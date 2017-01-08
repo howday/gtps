@@ -17,5 +17,6 @@
         <mapping class="com.project.gtps.domain.User"></mapping>
         <mapping class="com.project.gtps.domain.Device"></mapping>
         <mapping class="com.project.gtps.domain.Group"></mapping>
+        <mapping class="com.project.gtps.domain.Transaction"></mapping>
     </session-factory>
 </hibernate-configuration>

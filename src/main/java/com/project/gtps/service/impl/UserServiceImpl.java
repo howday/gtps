@@ -2,6 +2,7 @@ package com.project.gtps.service.impl;
 
 import com.project.gtps.dao.UserDao;
 import com.project.gtps.dao.impl.UserDaoImpl;
+import com.project.gtps.domain.Group;
 import com.project.gtps.domain.User;
 import com.project.gtps.service.UserService;
 
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userDao.findByEmail(email);
     }
 
     @Override
@@ -46,13 +47,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
+    }
+
+    @Override
     public Boolean validateUser(String userName, String password) {
 
-        return userDao.validate(userName,password);
+        return userDao.validate(userName, password);
     }
 
     @Override
     public List<User> findMatchingUser(String userName) {
         return userDao.findMatchingUser(userName);
     }
+
+    @Override
+    public Group findGroupById(Long groupId) {
+        return userDao.findGroupById(groupId);
+    }
+
+
 }

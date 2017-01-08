@@ -18,11 +18,7 @@ public class HibernateUtil {
             StandardServiceRegistryBuilder srb = new StandardServiceRegistryBuilder();
             srb.applySettings(configuration.getProperties());
             ServiceRegistry serviceRegistry = srb.build();
-
-            //Create SessionFacctory
-            SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-            return sessionFactory;
+            return configuration.buildSessionFactory(serviceRegistry);
 
         } catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed

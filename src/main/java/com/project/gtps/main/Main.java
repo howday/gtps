@@ -28,7 +28,7 @@ public class Main {
 
     static {
         protocol = "http://";
-        host = "localhost";
+        host = "172.17.3.126";
         port = "8080";
         path = "myapp";
         BASE_URI = protocol + host + ":" + port + "/" + path + "/";

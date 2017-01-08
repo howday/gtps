@@ -3,6 +3,7 @@ package com.project.gtps.domain;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by suresh on 12/25/16.
@@ -20,6 +21,7 @@ public class Group implements Serializable {
     @Column(name = "group_name", length = 255)
     private String groupName;
 
+
     public Long getId() {
         return id;
     }
@@ -35,5 +37,18 @@ public class Group implements Serializable {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
+    //for not persisting it in datastore
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    private transient List<User> userList;
+
 
 }

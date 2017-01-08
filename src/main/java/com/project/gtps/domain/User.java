@@ -1,6 +1,8 @@
 package com.project.gtps.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -16,15 +18,27 @@ import java.util.List;
 public class User implements Serializable {
 
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<Transaction> transactionList;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column(name = "username", length = 50, nullable = false)
     private String userName;
-
     @Column(name = "password", length = 50, nullable = false)
     private String password;
+    @Column(name = "email", length = 50, nullable = false)
+    private String email;
+    @Column(name = "is_delete")
+    private Integer isDelete;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_device", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))
+    @JsonIgnore
+    private List<Device> devices;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    @JsonIgnore
+    private List<Group> groups;
 
     public String getPassword() {
         return password;
@@ -34,26 +48,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "email", length = 50, nullable = false)
-    private String email;
-
-    @Column(name = "is_delete")
-    private Integer isDelete;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_device", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))
-    private List<Device> devices;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Group> groups;
-
     public List<Device> getDevices() {
         return devices;
     }
 
     public void setDevices(List<Device> devices) {
         this.devices = devices;
+    }
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
     }
 
     public Long getId() {

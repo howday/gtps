@@ -2,7 +2,6 @@ package com.project.gtps.dao.impl;
 
 import com.project.gtps.dao.GenericDao;
 import com.project.gtps.util.HibernateUtil;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -28,15 +27,19 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
     @Override
     public void save(T entity) {
 
-        System.out.println("Inside dao impl---before------add");
         Session session = HibernateUtil.getSessionFactory().openSession();
-        System.out.println("Inside dao impl----after-----add");
-        session.beginTransaction();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
 
-        System.out.println(entity);
-        session.save(entity);
-        session.getTransaction().commit();
-//        HibernateUtil.shutdown();
+        } catch (Exception ex) {
+            if (transaction != null) transaction.rollback();
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public void delete(T entity) {
@@ -69,19 +72,27 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
     @Override
     public T update(T entity) {
 
-        try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction tx = session.beginTransaction();
-            System.out.println("updated :" + entity);
-            session.merge(entity);
-            System.out.println("updated------------ :" + entity);
-            tx.commit();
 
-            return null;
-        } catch (HibernateException ex) {
+        System.out.println("----Updating Entity-----");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+
+            transaction = session.beginTransaction();
+            System.out.println("Merging Entity....");
+            session.merge(entity);
+            System.out.println("Updated User:\n" + entity);
+            transaction.commit();
+            System.out.println("Commit successful");
+
+        } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+
+        } finally {
+            session.close();
         }
+
+        return null;
 
     }
 
