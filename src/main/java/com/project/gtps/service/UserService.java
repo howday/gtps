@@ -1,5 +1,6 @@
 package com.project.gtps.service;
 
+import com.project.gtps.domain.Group;
 import com.project.gtps.domain.User;
 
 import java.util.List;
@@ -53,8 +54,13 @@ public interface UserService {
 
     public User findOne(Long id);
 
+    public User findByUsername(String username);
+
     public Boolean validateUser(String userName,String password);
 
     public List<User> findMatchingUser(String userName);
+
+    public Group findGroupById(Long groupId);
+
 
 }
