@@ -30,9 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void processAcceptRejectTx(Long transactionId) {
+    public void processAcceptRejectTx(Long transactionId,String action) {
 
 
-        transactionDao.processAcceptRejectTx(transactionId);
+        transactionDao.processAcceptRejectTx(transactionId,action);
     }
 }

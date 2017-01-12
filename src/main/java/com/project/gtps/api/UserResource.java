@@ -1,12 +1,15 @@
 package com.project.gtps.api;
 
 import com.project.gtps.domain.*;
+import com.project.gtps.service.ResetCodeService;
 import com.project.gtps.service.TransactionService;
 import com.project.gtps.service.UserService;
+import com.project.gtps.service.impl.ResetCodeServiceImpl;
 import com.project.gtps.service.impl.TransactionServiceImpl;
 import com.project.gtps.service.impl.UserServiceImpl;
 import com.project.gtps.util.HibernateUtil;
 import com.project.gtps.util.Notification;
+import com.project.gtps.util.Utility;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -31,6 +34,7 @@ public class UserResource {
 
     private static final Logger logger = LoggerFactory.getLogger(UserResource.class);
     private UserService userService = new UserServiceImpl();
+    private ResetCodeService resetCodeService = new ResetCodeServiceImpl();
     private TransactionService transactionService = new TransactionServiceImpl();
 
 
@@ -300,7 +304,7 @@ public class UserResource {
 
                 logger.info("Device Id of '{}' is '{}'", singleUser, device.getDeviceId());
 
-                Notification.send(message, device.getDeviceId());
+                Notification.send(message + "::0", device.getDeviceId());
 
                 logger.info("Notification delivered to user - '{}'", singleUser);
 
@@ -374,5 +378,104 @@ public class UserResource {
         }
     }
 
+
+    @GET
+    @Path("password/reset")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response resetPassword(@QueryParam("email") String email) {
+
+        logger.info("Password Reset : Searching user with email matching with '{}'", email);
+        try {
+            User user = userService.findByEmail(email);
+            if (user == null)
+                return Response.ok("Email not registered").build();
+            System.out.println(user);
+
+            logger.info("Generating reset code for email : '{}'", email);
+
+            String resetCodeString = Utility.generateResetCode(user.getUserName());
+            logger.info("Generation of  reset code for email : '{}' is SUCCESSFUL and now sending email", email);
+            Utility.sendResetCode(user.getUserName(), resetCodeString, user.getEmail());
+            logger.info("Reset code '{}' sent to user with email  = '{}'", resetCodeString, email);
+            /**
+             * Saves generated for requesting user in database
+             */
+            ResetCode resetCode = new ResetCode();
+            resetCode.setCode(resetCodeString);
+            resetCode.setEmail(user.getEmail());
+            resetCode.setGeneratedDate(new Date());
+
+            resetCodeService.saveResetCode(resetCode);
+            logger.info("Reset code saved for user with email = '{}'", email);
+
+            return Response.ok("Reset code sent to your email.\nPlease verify").build();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(" Exception while sending reset code to user with email '{}' : '{}'", email, ex);
+            return Response.status(500).build();
+        }
+
+
+    }
+
+
+    @Path("password/code/validate")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response validateResetCode(@FormParam("resetCode") String resetCode, @FormParam("email") String email) {
+
+        logger.info("Password Reset : Validating reset code  '{}' of user with email matching with '{}'", resetCode, email);
+        try {
+
+            Integer validationStatus = resetCodeService.validateResetCode(resetCode, email);
+
+
+            switch (validationStatus) {
+                case 200:
+                    logger.info("Reset code validated successfully!! of email {}", email);
+                    return Response.status(200).type(MediaType.TEXT_PLAIN).entity("Reset code validated successfully!!").build();
+                case 401:
+                    logger.info("This code has been expired!! of email {}", email);
+                    return Response.status(401).type(MediaType.TEXT_PLAIN).entity("This code has been expired!!").build();
+                case 404:
+                    logger.info("Code not found on the server!! of email {}", email);
+                    return Response.status(404).type(MediaType.TEXT_PLAIN).entity("Code not found in server!!").build();
+                default:
+                    return Response.status(500).build();
+            }
+
+
+        } catch (Exception ex) {
+            logger.error(" Exception while sending reset code to user with email '{}' : '{}'", email, ex);
+            return Response.status(500).build();
+        }
+
+    }
+
+    @Path("password/change")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response changePassword(@FormParam("password") String password, @FormParam("email") String email) {
+
+        logger.info("Password Reset : changing of user with email matching with '{}'", email);
+        try {
+
+            User user = userService.findByEmail(email);
+            user.setPassword(password);
+            logger.info("Changing password of user '{}' with email '{}'", user.getUserName(), email);
+            userService.update(user);
+            logger.info("Password of user '{}' with email '{}' is changed successfully!!", user.getUserName(), email);
+
+            return Response.ok().build();
+
+        } catch (Exception ex) {
+            logger.error(" Exception while changing password of user with email '{}' : '{}'", email, ex);
+            return Response.status(500).build();
+        }
+
+    }
 
 }

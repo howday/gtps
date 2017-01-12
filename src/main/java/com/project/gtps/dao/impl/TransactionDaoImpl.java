@@ -1,8 +1,16 @@
 package com.project.gtps.dao.impl;
 
 import com.project.gtps.dao.TransactionDao;
+import com.project.gtps.domain.Device;
 import com.project.gtps.domain.Transaction;
+import com.project.gtps.domain.User;
+import com.project.gtps.domain.UserLog;
+import com.project.gtps.service.UserLogService;
+import com.project.gtps.service.UserService;
+import com.project.gtps.service.impl.UserLogServiceImpl;
+import com.project.gtps.service.impl.UserServiceImpl;
 import com.project.gtps.util.HibernateUtil;
+import com.project.gtps.util.Notification;
 import org.hibernate.Session;
 
 import java.util.Date;
@@ -62,28 +70,61 @@ public class TransactionDaoImpl extends GenericDaoImpl<Transaction> implements T
 
     @Override
 
-    public void processAcceptRejectTx(Long transactionId) {
+    public void processAcceptRejectTx(Long transactionId, String action) {
+
+        UserLogService userLogService = new UserLogServiceImpl();
+        UserService userService = new UserServiceImpl();
         Transaction tx = findTransactionById(transactionId);
         System.out.println(tx.getDescription());
 
-        /**
-         * Update the status and date of pending transaction
-         */
-        tx.setStatus("RECEIVED");
-        tx.setDate(new Date());
-        update(tx);
+        String response = "rejected";
+        if (action.equalsIgnoreCase("ACCEPT")) {
+            response = "accepted";
+
+            /**
+             * Update the status and date of pending transaction
+             */
+            tx.setStatus("RECEIVED");
+            tx.setDate(new Date());
+            update(tx);
+            /**
+             * Enter new transaction for sender to record as SENT.
+             */
+            Transaction newTransaction = new Transaction();
+            newTransaction.setAmount(tx.getAmount());
+            newTransaction.setDate(new Date());
+            newTransaction.setDescription(tx.getDescription());
+            newTransaction.setRequestFromId(tx.getRequestToId());
+            newTransaction.setRequestToId(tx.getRequestFromId());
+            newTransaction.setStatus("SENT");
+            save(newTransaction);
+
+        } else {
+            /**
+             * Update the status and date of pending transaction
+             */
+            tx.setStatus("REJECTED");
+            tx.setDate(new Date());
+            update(tx);
+        }
+
+        String mess = String.format("%s has %s your request of %f for %s. [%s]",
+                tx.getRequestToId(), response, tx.getAmount(), tx.getDescription(), new Date());
+        UserLog userLog = new UserLog();
+        userLog.setUsername(tx.getRequestFromId());
+        userLog.setDescription(mess);
+        userLog.setGeneratedDate(new Date());
+        userLogService.logActivity(userLog);
 
         /**
-         * Enter new transaction for sender to record as SENT.
+         * Sends notification to user that their request has been responded
          */
-        Transaction newTransaction = new Transaction();
-        newTransaction.setAmount(tx.getAmount());
-        newTransaction.setDate(new Date());
-        newTransaction.setDescription(tx.getDescription());
-        newTransaction.setRequestFromId(tx.getRequestToId());
-        newTransaction.setRequestToId(tx.getRequestFromId());
-        newTransaction.setStatus("SENT");
-        save(newTransaction);
+        String messageToDevice = String.format("%s::2", mess, userLog.getGeneratedDate());
+        System.out.println("Message to device: " + messageToDevice);
+        User user = userService.findByUsername(tx.getRequestFromId());
+        Device device = user.getDevices().get(0);
+        Notification.send(messageToDevice, device.getDeviceId());
+
 
     }
 }

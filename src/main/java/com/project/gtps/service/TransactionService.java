@@ -22,6 +22,6 @@ public interface TransactionService {
 
     public List<Transaction> findTxOfUser(String username, String type);
 
-    public void processAcceptRejectTx(Long transactionId);
+    public void processAcceptRejectTx(Long transactionId,String action);
 
 }

@@ -18,6 +18,7 @@ import java.util.Properties;
 public class Main {
 
 
+    public static Properties settings = new Properties();
     /**
      * Base URI the Grizzly HTTP server will listen on
      */
@@ -26,7 +27,6 @@ public class Main {
     private static String hostname;
     private static String path;
     private static String port;
-    private static Properties settings = new Properties();
     private static Logger logger = LoggerFactory.getLogger(Main.class);
 
     /**

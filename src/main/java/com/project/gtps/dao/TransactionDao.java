@@ -13,6 +13,6 @@ public interface TransactionDao extends GenericDao<Transaction> {
 
     public List<Transaction> findTxOfUser(String username, String type);
 
-    public void processAcceptRejectTx(Long transactionId);
+    public void processAcceptRejectTx(Long transactionId, String action);
 
 }

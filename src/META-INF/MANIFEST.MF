@@ -1,33 +1,33 @@
 Manifest-Version: 1.0
-Class-Path: grizzly-http-2.3.28.jar jackson-core-2.8.4.jar jersey-serv
- er-2.25.jar jersey-guava-2.25.jar jersey-media-moxy-2.25.jar hk2-api-
- 2.5.0-b30.jar javax.ws.rs-api-2.0.1.jar jackson-databind-2.8.4.jar co
- mmons-codec-1.3.jar jersey-media-jaxb-2.25.jar hibernate-jpa-2.1-api-
- 1.0.0.Final.jar aopalliance-repackaged-2.5.0-b30.jar jackson-module-j
- axb-annotations-2.8.4.jar hamcrest-core-1.1.jar dom4j-1.6.1.jar json-
- 20160212.jar jboss-logging-3.1.3.GA.jar javassist-3.18.1-GA.jar jsr30
- 5-1.3.9.jar grizzly-http-server-2.3.28.jar mysql-connector-java-5.1.6
- .jar slf4j-api-1.7.22.jar jersey-entity-filtering-2.25.jar httpclient
- -4.0.1.jar grizzly-http-server-2.3.28.jar javax.annotation-api-1.2.ja
- r gcm-server-1.0.2.jar google-api-client-1.21.0.jar jackson-jaxrs-jso
- n-provider-2.8.4.jar google-api-client-gson-1.21.0.jar grizzly-framew
- ork-2.3.28.jar antlr-2.7.7.jar org.eclipse.persistence.moxy-2.6.0.jar
-  jboss-logging-annotations-1.2.0.Beta1.jar validation-api-1.1.0.Final
- .jar httpcore-4.0.1.jar osgi-resource-locator-1.0.1.jar xml-apis-1.0.
- b2.jar javax.inject-2.5.0-b30.jar hk2-utils-2.5.0-b30.jar jandex-1.1.
- 0.Final.jar org.eclipse.persistence.asm-2.6.0.jar hibernate-jpa-2.0-a
- pi-1.0.1.Final.jar slf4j-log4j12-1.7.22.jar jersey-common-2.25.jar gc
- m-server-1.0.2.jar jersey-client-2.25.jar hibernate-core-4.3.11.Final
- .jar firebase-server-sdk-3.0.0.jar jersey-container-grizzly2-http-2.2
- 5.jar jackson-jaxrs-base-2.8.4.jar hk2-locator-2.5.0-b30.jar javax.js
- on-1.0.4.jar junit-4.10.jar google-http-client-gson-1.21.0.jar jersey
- -media-json-jackson-2.25.jar json-simple-1.1.1.jar hibernate-commons-
- annotations-4.0.5.Final.jar jboss-transaction-api_1.2_spec-1.0.0.Fina
- l.jar guava-jdk5-17.0.jar gson-2.6.2.jar grizzly-framework-2.3.28.jar
-  grizzly-http-2.3.28.jar grizzly-http-server-2.3.28.jar google-oauth-
- client-1.21.0.jar log4j-1.2.17.jar jackson-annotations-2.8.4.jar org.
- eclipse.persistence.core-2.6.0.jar google-http-client-1.21.0.jar comm
- ons-logging-1.1.1.jar google-http-client-jackson2-1.21.0.jar grizzly-
- http-2.3.28.jar
+Class-Path: jackson-jaxrs-json-provider-2.8.4.jar jackson-core-2.8.4.j
+ ar jersey-guava-2.25.jar osgi-resource-locator-1.0.1.jar hamcrest-cor
+ e-1.1.jar hibernate-core-4.3.11.Final.jar javassist-3.18.1-GA.jar hk2
+ -locator-2.5.0-b30.jar slf4j-api-1.7.22.jar google-http-client-gson-1
+ .21.0.jar jackson-module-jaxb-annotations-2.8.4.jar grizzly-framework
+ -2.3.28.jar grizzly-http-2.3.28.jar grizzly-http-server-2.3.28.jar je
+ rsey-media-json-jackson-2.25.jar grizzly-http-server-2.3.28.jar hiber
+ nate-jpa-2.0-api-1.0.1.Final.jar jackson-annotations-2.8.4.jar gcm-se
+ rver-1.0.2.jar gson-2.6.2.jar slf4j-log4j12-1.7.22.jar hk2-utils-2.5.
+ 0-b30.jar google-http-client-jackson2-1.21.0.jar httpcore-4.0.1.jar g
+ oogle-api-client-1.21.0.jar org.eclipse.persistence.core-2.6.0.jar my
+ sql-connector-java-5.1.6.jar activation-1.1.jar jboss-logging-annotat
+ ions-1.2.0.Beta1.jar google-http-client-1.21.0.jar org.eclipse.persis
+ tence.moxy-2.6.0.jar jersey-media-jaxb-2.25.jar jboss-transaction-api
+ _1.2_spec-1.0.0.Final.jar jboss-logging-3.1.3.GA.jar jersey-server-2.
+ 25.jar json-20160212.jar xml-apis-1.0.b2.jar jandex-1.1.0.Final.jar h
+ k2-api-2.5.0-b30.jar httpclient-4.0.1.jar aopalliance-repackaged-2.5.
+ 0-b30.jar jersey-client-2.25.jar jackson-databind-2.8.4.jar grizzly-h
+ ttp-server-2.3.28.jar grizzly-http-2.3.28.jar validation-api-1.1.0.Fi
+ nal.jar dom4j-1.6.1.jar junit-4.10.jar jackson-jaxrs-base-2.8.4.jar j
+ sr305-1.3.9.jar log4j-1.2.17.jar mail-1.5.0-b01.jar hibernate-jpa-2.1
+ -api-1.0.0.Final.jar org.eclipse.persistence.asm-2.6.0.jar google-api
+ -client-gson-1.21.0.jar firebase-server-sdk-3.0.0.jar javax.inject-2.
+ 5.0-b30.jar google-oauth-client-1.21.0.jar commons-codec-1.3.jar jers
+ ey-media-moxy-2.25.jar grizzly-http-2.3.28.jar hibernate-commons-anno
+ tations-4.0.5.Final.jar json-simple-1.1.1.jar jersey-container-grizzl
+ y2-http-2.25.jar javax.ws.rs-api-2.0.1.jar guava-jdk5-17.0.jar antlr-
+ 2.7.7.jar javax.json-1.0.4.jar grizzly-framework-2.3.28.jar jersey-co
+ mmon-2.25.jar jersey-entity-filtering-2.25.jar javax.annotation-api-1
+ .2.jar commons-logging-1.1.1.jar gcm-server-1.0.2.jar
 Main-Class: com.project.gtps.main.Main
 
