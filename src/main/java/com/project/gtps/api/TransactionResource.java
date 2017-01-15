@@ -28,19 +28,19 @@ public class TransactionResource {
     private UserLogService userLogService = new UserLogServiceImpl();
 
     @GET
-    @Path("{username}")
+    @Path("{state}/{username}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response display(@PathParam("username") String username) {
+    public Response display(@PathParam("state") String state, @PathParam("username") String username) {
 
         logger.info("Searching transaction of usernames matching with '{}'", username);
         try {
-            List<Transaction> transactionList = transactionService.findTxOfUser(username, "COMPLETED");
-            logger.info("Completed transaction searching completed for user : '{}'", username);
+            List<Transaction> transactionList = transactionService.findTxOfUser(username, state);
+            logger.info("{} transaction searching completed for user : '{}'", state, username);
 
             return Response.ok(transactionList).build();
 
         } catch (Exception ex) {
-            logger.error(" Exception while searching user with name '{}' : '{}'", username, ex);
+            logger.error("Exception while searching {} user with name '{}' : '{}'", state, username, ex);
             return Response.status(500).build();
         }
 
@@ -78,8 +78,8 @@ public class TransactionResource {
         try {
 
 
-            List<UserLog> userLogList = userLogService.getAllUserLog();
-            logger.info("User logs returned succeefully for user '{}'", username);
+            List<UserLog> userLogList = userLogService.getAllUserLog(username);
+            logger.info("User logs returned successfully for user '{}'", username);
             return Response.ok(userLogList).build();
 
 

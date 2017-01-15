@@ -11,7 +11,7 @@ public interface UserLogService {
 
     public void logActivity(UserLog userLog);
 
-    public List<UserLog> getAllUserLog();
+    public List<UserLog> getAllUserLog(String username);
 
     public List<UserLog> getAllFilteredUserLog();
 }

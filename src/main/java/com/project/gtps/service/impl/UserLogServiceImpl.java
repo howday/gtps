@@ -20,9 +20,9 @@ public class UserLogServiceImpl implements UserLogService {
     }
 
     @Override
-    public List<UserLog> getAllUserLog() {
+    public List<UserLog> getAllUserLog(String username) {
 
-        return userLogDao.findAll();
+        return userLogDao.findAll(username);
     }
 
     @Override

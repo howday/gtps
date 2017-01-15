@@ -56,9 +56,9 @@ public class UserResource {
                  * Update the current device of user for notifications
                  */
                 logger.info("Setting the current device of user = '{}' with deviceId = '{}'", userName, deviceId);
-                validUser.getDevices().get(0).setDeviceId(deviceId);
+//                validUser.getDevices().get(0).setDeviceId(deviceId);
 
-                userService.update(validUser);
+//                userService.update(validUser);
                 logger.info("Setting current device for user '{}' is COMPLETED");
                 /**
                  *  get the pending transactions of user

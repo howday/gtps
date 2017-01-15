@@ -15,4 +15,5 @@ public interface TransactionDao extends GenericDao<Transaction> {
 
     public void processAcceptRejectTx(Long transactionId, String action);
 
+
 }
